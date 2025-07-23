@@ -23,15 +23,15 @@ if choice == "e":
         folder=folder
     )
     encryptor.encrypt_files()
-    # Send the key to a web server for example, to decrypt file later
+    # Send the key to a web server for example, to decrypt files later
     print(encryptor.encryption_key)
 elif choice == "d":
     # Decrypt
     encryption_key = input("The encryption key used in encryption process : ")
-    folder = input("Path to encrypt (only files within this folder will be encrypted) : ")
+    folder = input("Path to decrypt (only files within this folder will be decrypted) : ")
     extensions = []
     while True:
-        extension = input("Which extensions would you like to encrypt (enter them one by one) : ")
+        extension = input("Which extensions would you like to decrypt (enter them one by one) : ")
         if extension == "":
             break
         else:
