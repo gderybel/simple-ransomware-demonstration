@@ -7,7 +7,6 @@ class Decryptor:
     """
     This class will be used to decrypt data.
     - decryption_key: str
-    - encrypted_extensions: list
     - encryption_level: int
     - folder: str
     - recursive: bool (True)
@@ -17,14 +16,12 @@ class Decryptor:
     def __init__(
             self,
             decryption_key: str,
-            encrypted_extensions: list,
-            encryption_level: int,
             folder: str,
-            recursive: bool = True
+            recursive: bool,
+            encryption_level: int = 64
         ) -> None:
         self.decryption_key = decryption_key
         self.encryption_level = encryption_level
-        self.encrypted_extensions = encrypted_extensions
         self.folder = folder
         self.recursive = recursive
 
@@ -34,7 +31,7 @@ class Decryptor:
         else:
             exit("The selected folder was not found, check path and permissions.")
 
-        self.files_to_decrypt = Folder.grab_files(self.folder, self.encrypted_extensions)
+        self.files_to_decrypt = Folder.grab_files(self.folder, self.recursive)
 
     def decrypt_files(self):
         """
@@ -54,7 +51,7 @@ class Decryptor:
                                 index = 0
                             else:
                                 index += 1
-            except:
+            except Exception:
                 print('Couldn\'t decrypt file \'' + file + '\'.')
 
         print('Files were decrypted successfully.\n')
