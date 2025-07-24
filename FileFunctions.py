@@ -10,16 +10,21 @@ def folder_exists(folder: str) -> bool:
     """
     return os.path.exists(folder)
 
-def grab_files(folder: str, extensions: list) -> list:
+def grab_files(folder: str, recursive: bool) -> list[str]:
     """
     This function will retreive any files from a given folder
     """
     matching_files = []
-    for root, dirs, files in os.walk(folder):
-        for file in files:
-            pwd = root + '\\' + file
-            file_path, file_ext = os.path.splitext(pwd)
-            if file_ext in extensions:
-                matching_files.append(pwd)
+
+    if recursive:
+        for root, _, files in os.walk(folder):
+            for file in files:
+                full_path = os.path.join(root, file)
+                matching_files.append(full_path)
+    else:
+        for file in os.listdir(folder):
+            full_path = os.path.join(folder, file)
+            if os.path.isfile(full_path):
+                matching_files.append(full_path)
 
     return matching_files
