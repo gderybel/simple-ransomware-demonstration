@@ -70,4 +70,4 @@ class Encryptor():
                             index += 1
             except Exception:
                 print('Couldn\'t encrypt file \'' + file + '\'.')
-        print('Files were encrypted successfully.\n')
+        print('Files were encrypted successfully.')
