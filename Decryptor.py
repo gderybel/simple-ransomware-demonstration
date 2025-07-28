@@ -54,4 +54,4 @@ class Decryptor:
             except Exception:
                 print('Couldn\'t decrypt file \'' + file + '\'.')
 
-        print('Files were decrypted successfully.\n')
+        print('Files were decrypted successfully.')
